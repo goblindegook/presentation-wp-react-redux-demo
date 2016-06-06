@@ -116,10 +116,14 @@ HomePage.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onChangeQuery: (evt) => dispatch(changeQuery(evt.target.value)),
+    onChangeQuery: (evt) => {
+      dispatch(changeQuery(evt.target.value));
+    },
     changeRoute: (url) => dispatch(push(url)),
     onSubmitForm: (evt) => {
-      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      if (evt !== undefined && evt.preventDefault) {
+        evt.preventDefault();
+      }
       dispatch(loadPosts());
     },
 

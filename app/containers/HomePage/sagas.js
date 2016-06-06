@@ -28,8 +28,8 @@ function wpSearchPosts(query) {
 export function* searchPosts() {
   while (true) {
     const watcher = yield race({
-      loadRepos: take(LOAD_POSTS),
-      stop: take(LOCATION_CHANGE), // stop watching if user leaves page
+      loadPosts: take(LOAD_POSTS),
+      stop:      take(LOCATION_CHANGE), // stop watching if user leaves page
     });
 
     if (watcher.stop) break;
