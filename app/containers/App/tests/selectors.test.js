@@ -3,10 +3,10 @@ import expect from 'expect';
 
 import {
   selectGlobal,
-  selectCurrentUser,
+  selectCurrentQuery,
   selectLoading,
   selectError,
-  selectRepos,
+  selectPosts,
   selectLocationState,
 } from '../selectors';
 
@@ -21,16 +21,16 @@ describe('selectGlobal', () => {
   });
 });
 
-describe('selectCurrentUser', () => {
-  const currentUserSelector = selectCurrentUser();
-  it('should select the current user', () => {
-    const username = 'mxstbr';
+describe('selectCurrentQuery', () => {
+  const currentQuerySelector = selectCurrentQuery();
+  it('should select the current query', () => {
+    const query = 'wordpress';
     const mockedState = fromJS({
       global: {
-        currentUser: username,
+        currentQuery: query,
       },
     });
-    expect(currentUserSelector(mockedState)).toEqual(username);
+    expect(currentQuerySelector(mockedState)).toEqual(query);
   });
 });
 
@@ -60,18 +60,16 @@ describe('selectError', () => {
   });
 });
 
-describe('selectRepos', () => {
-  const reposSelector = selectRepos();
+describe('selectPosts', () => {
+  const postsSelector = selectPosts();
   it('should select the repos', () => {
-    const repositories = fromJS([]);
+    const posts = fromJS([]);
     const mockedState = fromJS({
       global: {
-        userData: {
-          repositories,
-        },
+        posts,
       },
     });
-    expect(reposSelector(mockedState)).toEqual(repositories);
+    expect(postsSelector(mockedState)).toEqual(posts);
   });
 });
 

@@ -1,23 +1,23 @@
 import expect from 'expect';
 
 import {
-  CHANGE_USERNAME,
+  CHANGE_QUERY,
 } from '../constants';
 
 import {
-  changeUsername,
+  changeQuery,
 } from '../actions';
 
 describe('Home Actions', () => {
-  describe('changeUsername', () => {
-    it('should return the correct type and the passed name', () => {
-      const fixture = 'Max';
+  describe('changeQuery', () => {
+    it('should return the correct type and the passed query', () => {
+      const fixture = 'WordPress';
       const expectedResult = {
-        type: CHANGE_USERNAME,
-        name: fixture,
+        type: CHANGE_QUERY,
+        query: fixture,
       };
 
-      expect(changeUsername(fixture)).toEqual(expectedResult);
+      expect(changeQuery(fixture)).toEqual(expectedResult);
     });
   });
 });

@@ -1,53 +1,53 @@
 import expect from 'expect';
 
 import {
-  LOAD_REPOS,
-  LOAD_REPOS_SUCCESS,
-  LOAD_REPOS_ERROR,
+  LOAD_POSTS,
+  LOAD_POSTS_SUCCESS,
+  LOAD_POSTS_ERROR,
 } from '../constants';
 
 import {
-  loadRepos,
-  reposLoaded,
-  repoLoadingError,
+  loadPosts,
+  postsLoaded,
+  postLoadingError,
 } from '../actions';
 
 describe('App Actions', () => {
-  describe('loadRepos', () => {
+  describe('loadPosts', () => {
     it('should return the correct type', () => {
       const expectedResult = {
-        type: LOAD_REPOS,
+        type: LOAD_POSTS,
       };
 
-      expect(loadRepos()).toEqual(expectedResult);
+      expect(loadPosts()).toEqual(expectedResult);
     });
   });
 
-  describe('reposLoaded', () => {
-    it('should return the correct type and the passed repos', () => {
+  describe('postsLoaded', () => {
+    it('should return the correct type and the passed posts', () => {
       const fixture = ['Test'];
-      const username = 'test';
+      const query = 'test';
       const expectedResult = {
-        type: LOAD_REPOS_SUCCESS,
-        repos: fixture,
-        username,
+        type: LOAD_POSTS_SUCCESS,
+        posts: fixture,
+        query,
       };
 
-      expect(reposLoaded(fixture, username)).toEqual(expectedResult);
+      expect(postsLoaded(fixture, query)).toEqual(expectedResult);
     });
   });
 
-  describe('repoLoadingError', () => {
+  describe('postLoadingError', () => {
     it('should return the correct type and the error', () => {
       const fixture = {
         msg: 'Something went wrong!',
       };
       const expectedResult = {
-        type: LOAD_REPOS_ERROR,
+        type: LOAD_POSTS_ERROR,
         error: fixture,
       };
 
-      expect(repoLoadingError(fixture)).toEqual(expectedResult);
+      expect(postLoadingError(fixture)).toEqual(expectedResult);
     });
   });
 });

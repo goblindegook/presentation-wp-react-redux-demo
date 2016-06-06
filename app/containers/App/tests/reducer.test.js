@@ -1,9 +1,9 @@
 import expect from 'expect';
 import appReducer from '../reducer';
 import {
-  loadRepos,
-  reposLoaded,
-  repoLoadingError,
+  loadPosts,
+  postsLoaded,
+  postLoadingError,
 } from '../actions';
 import { fromJS } from 'immutable';
 
@@ -13,10 +13,8 @@ describe('appReducer', () => {
     state = fromJS({
       loading: false,
       error: false,
-      currentUser: false,
-      userData: fromJS({
-        repositories: false,
-      }),
+      currentQuery: false,
+      posts: false,
     });
   });
 
@@ -25,36 +23,37 @@ describe('appReducer', () => {
     expect(appReducer(undefined, {})).toEqual(expectedResult);
   });
 
-  it('should handle the loadRepos action correctly', () => {
+  it('should handle the loadPosts action correctly', () => {
     const expectedResult = state
       .set('loading', true)
       .set('error', false)
-      .setIn(['userData', 'repositories'], false);
+      .set('posts', false);
 
-    expect(appReducer(state, loadRepos())).toEqual(expectedResult);
+    expect(appReducer(state, loadPosts())).toEqual(expectedResult);
   });
 
-  it('should handle the reposLoaded action correctly', () => {
+  it('should handle the postsLoaded action correctly', () => {
     const fixture = [{
-      name: 'My Repo',
+      title: {
+        rendered: 'My Repo',
+      },
     }];
-    const username = 'test';
+    const query = 'test';
     const expectedResult = state
-      .setIn(['userData', 'repositories'], fixture)
+      .set('posts', fixture)
       .set('loading', false)
-      .set('currentUser', username);
+      .set('currentQuery', query);
 
-    expect(appReducer(state, reposLoaded(fixture, username))).toEqual(expectedResult);
+    expect(appReducer(state, postsLoaded(fixture, query))).toEqual(expectedResult);
   });
 
-  it('should handle the repoLoadingError action correctly', () => {
-    const fixture = {
-      msg: 'Not found',
-    };
+  it('should handle the postLoadingError action correctly', () => {
+    const fixture = new Error('Not found');
+    
     const expectedResult = state
       .set('error', fixture)
       .set('loading', false);
 
-    expect(appReducer(state, repoLoadingError(fixture))).toEqual(expectedResult);
+    expect(appReducer(state, postLoadingError(fixture))).toEqual(expectedResult);
   });
 });

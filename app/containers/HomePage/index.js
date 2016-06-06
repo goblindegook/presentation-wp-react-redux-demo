@@ -12,20 +12,19 @@ import shouldPureComponentUpdate from 'react-pure-render/function';
 import { createSelector } from 'reselect';
 
 import {
-  selectRepos,
+  selectPosts,
   selectLoading,
   selectError,
 } from 'containers/App/selectors';
 
 import {
-  selectUsername,
+  selectQuery,
 } from './selectors';
 
-import { changeUsername } from './actions';
-import { loadRepos } from '../App/actions';
+import { changeQuery } from './actions';
+import { loadPosts } from '../App/actions';
 
-import RepoListItem from 'containers/RepoListItem';
-import Button from 'components/Button';
+import PostListItem from 'containers/PostListItem';
 import H2 from 'components/H2';
 import List from 'components/List';
 import ListItem from 'components/ListItem';
@@ -35,10 +34,10 @@ import styles from './styles.css';
 
 export class HomePage extends React.Component {
   /**
-   * when initial state username is not null, submit the form to load repos
+   * when initial state query is not null, submit the form to load repos
    */
   componentDidMount() {
-    if (this.props.username && this.props.username.trim().length > 0) {
+    if (this.props.query && this.props.query.trim().length > 0) {
       this.props.onSubmitForm();
     }
   }
@@ -52,13 +51,6 @@ export class HomePage extends React.Component {
    */
   openRoute = (route) => {
     this.props.changeRoute(route);
-  };
-
-  /**
-   * Changed route to '/features'
-   */
-  openFeaturesPage = () => {
-    this.openRoute('/features');
   };
 
   render() {
@@ -76,35 +68,30 @@ export class HomePage extends React.Component {
       mainContent = (<List component={ErrorComponent} />);
 
     // If we're not loading, don't have an error and there are repos, show the repos
-    } else if (this.props.repos !== false) {
-      mainContent = (<List items={this.props.repos} component={RepoListItem} />);
+    } else if (this.props.posts !== false) {
+      mainContent = (<List items={this.props.posts} component={PostListItem} />);
     }
 
     return (
       <article>
         <div>
-          <section className={`${styles.textSection} ${styles.centered}`}>
-            <H2>Start your next react project in seconds</H2>
-            <p>A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices</p>
-          </section>
           <section className={styles.textSection}>
-            <H2>Try me!</H2>
-            <form className={styles.usernameForm} onSubmit={this.props.onSubmitForm}>
-              <label htmlFor="username">Show Github repositories by
-                <span className={styles.atPrefix}>@</span>
+            <H2>Lisbon WordPress Meetup</H2>
+            <form onSubmit={this.props.onSubmitForm}>
+              <label htmlFor="query">
+                <span>Search: </span>
                 <input
-                  id="username"
+                  id="query"
                   className={styles.input}
                   type="text"
-                  placeholder="mxstbr"
-                  value={this.props.username}
-                  onChange={this.props.onChangeUsername}
+                  placeholder=""
+                  value={this.props.query}
+                  onChange={this.props.onChangeQuery}
                 />
               </label>
             </form>
             {mainContent}
           </section>
-          <Button handleRoute={this.openFeaturesPage}>Features</Button>
         </div>
       </article>
     );
@@ -118,22 +105,22 @@ HomePage.propTypes = {
     React.PropTypes.object,
     React.PropTypes.bool,
   ]),
-  repos: React.PropTypes.oneOfType([
+  posts: React.PropTypes.oneOfType([
     React.PropTypes.array,
     React.PropTypes.bool,
   ]),
   onSubmitForm: React.PropTypes.func,
-  username: React.PropTypes.string,
-  onChangeUsername: React.PropTypes.func,
+  query: React.PropTypes.string,
+  onChangeQuery: React.PropTypes.func,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    onChangeUsername: (evt) => dispatch(changeUsername(evt.target.value)),
+    onChangeQuery: (evt) => dispatch(changeQuery(evt.target.value)),
     changeRoute: (url) => dispatch(push(url)),
     onSubmitForm: (evt) => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-      dispatch(loadRepos());
+      dispatch(loadPosts());
     },
 
     dispatch,
@@ -142,9 +129,9 @@ function mapDispatchToProps(dispatch) {
 
 // Wrap the component to inject dispatch and state into it
 export default connect(createSelector(
-  selectRepos(),
-  selectUsername(),
+  selectPosts(),
+  selectQuery(),
   selectLoading(),
   selectError(),
-  (repos, username, loading, error) => ({ repos, username, loading, error })
+  (posts, query, loading, error) => ({ posts, query, loading, error })
 ), mapDispatchToProps)(HomePage);

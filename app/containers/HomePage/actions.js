@@ -16,19 +16,19 @@
  */
 
 import {
-  CHANGE_USERNAME,
+  CHANGE_QUERY,
 } from './constants';
 
 /**
  * Changes the input field of the form
  *
- * @param  {name} name The new text of the input field
+ * @param  {string} query The new text of the input field
  *
- * @return {object}    An action object with a type of CHANGE_USERNAME
+ * @return {object}    An action object with a type of CHANGE_QUERY
  */
-export function changeUsername(name) {
+export function changeQuery(query) {
   return {
-    type: CHANGE_USERNAME,
-    name,
+    type: CHANGE_QUERY,
+    query,
   };
 }

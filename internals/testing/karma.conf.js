@@ -9,7 +9,7 @@ module.exports = (config) => {
     browsers: process.env.TRAVIS
       ? ['ChromeTravis']
       : process.env.APPVEYOR
-        ? ['IE'] : ['Chrome'],
+        ? ['IE'] : ['Safari'],
     /*eslint-enable */
 
     autoWatch: false,
